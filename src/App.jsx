@@ -30,20 +30,19 @@ function App() {
   // Загруджаем модель при старте приложения
   useEffect(() => {
     const loadModel = async () => {
-      // Указываем backend (CPU — самый стабильный)
+      // Указываем CPU
       await tf.setBackend("cpu");
 
       // Ждём готовности TensorFlow
       await tf.ready();
 
-      // Загружаем саму MobileNet
+      // Загружаем MobileNet
       modelRef.current = await mobilenet.load({
         version: 1,
-        alpha: 0.25, // самая лёгкая версия
+        alpha: 0.25,
       });
 
       setModelLoaded(true);
-      console.log("Модель загружена");
     };
 
     loadModel();
@@ -74,7 +73,7 @@ function App() {
     // Передаём изображение модели
     const results = await modelRef.current.classify(imgRef.current);
 
-    // Берём только top-3 результата
+    // Берём только 3 результата
     setPredictions(results.slice(0, 3));
 
     setLoading(false);
